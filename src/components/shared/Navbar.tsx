@@ -1,7 +1,9 @@
 import logoImg from '@/assets/logo.png';
 import { cn } from '@/lib/utils';
-import { clearUser } from '@/redux/features/auth/authSlice';
+import { logout } from '@/redux/features/auth/authSlice';
+// import { persistor } from "@/redux/store"
 import { useCallback, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { HiX } from 'react-icons/hi';
 import { IoIosLogOut } from 'react-icons/io';
 import {
@@ -17,7 +19,7 @@ import {
   LuUsers,
 } from 'react-icons/lu';
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const navItems = [
   {
@@ -95,10 +97,21 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
-  const handleLogout = useCallback(() => {
-    dispatch(clearUser());
-    window.location.href = '/general-login';
-  }, [dispatch]);
+  const navigate = useNavigate()
+const handleLogout = () => {
+    dispatch(logout());
+
+    // persistor.purge();
+
+
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+
+    toast.success("Logout Successfully");
+
+    navigate("/admin-login", { replace: true });
+  };
+
 
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen((prev) => !prev);

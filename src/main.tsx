@@ -3,12 +3,13 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 
 import { RouterProvider } from 'react-router-dom';
-import router from './routes.tsx';
+// import router from './routes.tsx';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore, type Persistor } from 'redux-persist';
 import store from './redux/store.ts';
+import router from './routes/routes.tsx';
 
 const persistor: Persistor = persistStore(store);
 createRoot(document.getElementById('root')!).render(
