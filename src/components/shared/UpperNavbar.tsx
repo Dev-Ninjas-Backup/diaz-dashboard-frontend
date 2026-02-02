@@ -21,8 +21,8 @@ const UpperNavbar = () => {
         {/* Right Section - Notification & User */}
         <div className="flex items-center gap-3 sm:gap-4">
           {/* Notification Bell */}
-          <div className='cursor-pointer'>
-            <NotificationBell  />
+          <div className="cursor-pointer">
+            <NotificationBell />
           </div>
 
           {/* User Profile */}

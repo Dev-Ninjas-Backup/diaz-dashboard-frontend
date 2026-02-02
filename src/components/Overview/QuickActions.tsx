@@ -9,7 +9,7 @@ const QuickActions = () => {
       <ul className="mt-5 space-y-3 border-b border-gray-200 pb-5 shrink-0">
         <li
           onClick={() => navigate('/listings/add')}
-          className="bg-[#006EF0] text-white flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer hover:bg-[#005acc] transition-colors"
+          className="border border-gray-200  flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
         >
           <LuPlus className="h-4 w-4" />
           <span className="">Add New Listing</span>
