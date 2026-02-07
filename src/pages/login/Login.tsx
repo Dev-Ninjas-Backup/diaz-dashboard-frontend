@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useLoginMutation } from '@/redux/features/auth/authApi';
+import {
+  useForgotPasswordMutation,
+  useLoginMutation,
+  useResetPasswordMutation,
+} from '@/redux/features/auth/authApi';
 import { setCredentials } from '@/redux/features/auth/authSlice';
 import { useAppDispatch } from '@/redux/typeHook';
 import { Eye, EyeOff } from 'lucide-react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -16,12 +21,11 @@ const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
+  const [forgotPassword] = useForgotPasswordMutation();
+  const [resetPassword] = useResetPasswordMutation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!rememberMe) {
-      return toast.error('Please Click On rememberMe!');
-    }
 
     try {
       const res: any = await login({ email, password }).unwrap();
@@ -37,6 +41,170 @@ const LoginPage: React.FC = () => {
       toast('Welcome Back!');
     } catch (err: any) {
       toast.error(err?.data?.message || 'Login failed');
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const { value: email } = await Swal.fire({
+      title: 'Forgot Password',
+      input: 'email',
+      inputLabel: 'Enter your email address',
+      inputPlaceholder: 'you@example.com',
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+      confirmButtonColor: '#2563eb',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Please enter your email!';
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return 'Please enter a valid email address!';
+        }
+        return null;
+      },
+    });
+
+    if (email) {
+      // Show loading animation
+      Swal.fire({
+        title: 'Sending OTP...',
+        html: 'Please wait while we send the OTP to your email.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      try {
+        await forgotPassword({ email }).unwrap();
+        toast.success('OTP sent to your email!');
+
+        // Show OTP and new password input modal
+        const { value: formValues } = await Swal.fire({
+          title: 'Reset Password',
+          html: `
+            <div style="text-align: left; margin-top: 20px;">
+              <label style="display: block; font-weight: 500; margin-bottom: 8px; color: #374151;">
+                OTP Code
+              </label>
+              <input
+                id="swal-otp"
+                type="text"
+                placeholder="Enter OTP"
+                style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; margin-bottom: 16px; font-size: 14px;"
+                autocomplete="off"
+              />
+              <label style="display: block; font-weight: 500; margin-bottom: 8px; color: #374151;">
+                New Password
+              </label>
+              <div style="position: relative;">
+                <input
+                  id="swal-password"
+                  type="password"
+                  placeholder="Enter your new password"
+                  style="width: 100%; padding: 10px 40px 10px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px;"
+                  autocomplete="new-password"
+                />
+                <button
+                  type="button"
+                  id="toggle-password"
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280; padding: 0; display: flex; align-items: center; justify-content: center;"
+                >
+                  <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          `,
+          showCancelButton: true,
+          confirmButtonText: 'Reset Password',
+          confirmButtonColor: '#2563eb',
+          focusConfirm: false,
+          didOpen: () => {
+            const toggleBtn = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById(
+              'swal-password',
+            ) as HTMLInputElement;
+            const eyeIcon = document.getElementById('eye-icon');
+
+            toggleBtn?.addEventListener('click', () => {
+              if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                if (eyeIcon) {
+                  eyeIcon.innerHTML =
+                    '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+                }
+              } else {
+                passwordInput.type = 'password';
+                if (eyeIcon) {
+                  eyeIcon.innerHTML =
+                    '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+                }
+              }
+            });
+          },
+          preConfirm: () => {
+            const otp = (
+              document.getElementById('swal-otp') as HTMLInputElement
+            )?.value;
+            const newPassword = (
+              document.getElementById('swal-password') as HTMLInputElement
+            )?.value;
+
+            if (!otp) {
+              Swal.showValidationMessage('Please enter the OTP!');
+              return false;
+            }
+            if (!/^\d+$/.test(otp)) {
+              Swal.showValidationMessage('OTP must be a number!');
+              return false;
+            }
+            if (!newPassword) {
+              Swal.showValidationMessage('Please enter a new password!');
+              return false;
+            }
+            if (newPassword.length < 6) {
+              Swal.showValidationMessage(
+                'Password must be at least 6 characters!',
+              );
+              return false;
+            }
+
+            return { otp, newPassword };
+          },
+        });
+
+        if (formValues) {
+          try {
+            const res: any = await resetPassword({
+              email,
+              otp: formValues.otp,
+              newPassword: formValues.newPassword,
+            }).unwrap();
+
+            toast.success(res?.message || 'Password reset successfully!');
+
+            // Clear the form fields after successful reset
+            setEmail('');
+            setPassword('');
+
+            await Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Your password has been reset. Please login with your new password.',
+              confirmButtonColor: '#2563eb',
+            });
+          } catch (err: any) {
+            toast.error(err?.data?.message || 'Failed to reset password!');
+          }
+        }
+      } catch (err: any) {
+        Swal.close();
+        toast.error(err?.data?.message || 'Failed to send OTP!');
+      }
     }
   };
 
@@ -100,9 +268,13 @@ const LoginPage: React.FC = () => {
               Remember me
             </label>
 
-            <a href="#" className="text-sm text-blue-600 hover:underline">
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              className="text-sm text-blue-600 hover:underline"
+            >
               Forgot password?
-            </a>
+            </button>
           </div>
 
           <button
