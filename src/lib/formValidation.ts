@@ -43,6 +43,9 @@ export const firstStepSchema = z.object({
   material: z.string().optional(),
   fuelType: z.string().min(1, 'Fuel type is required'),
   propMaterial: z.string().min(1, 'Propeller material is required'),
+  // Optional overall engine / propeller types
+  engineType: z.string().optional(),
+  propType: z.string().optional(),
   
   numberOfEngines: z.coerce
     .number()

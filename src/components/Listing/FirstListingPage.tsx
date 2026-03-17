@@ -259,6 +259,22 @@ const FirstListingPage = ({
                   onChange={(value) => setValue('propMaterial', value)}
                   required
                 />
+                <DynamicFormSelect
+                  label="Engine Type:"
+                  name="engineType"
+                  type="ENGINE_TYPE"
+                  register={register}
+                  value={formValues.engineType}
+                  onChange={(value) => setValue('engineType', value)}
+                />
+                <DynamicFormSelect
+                  label="Propeller Type:"
+                  name="propType"
+                  type="PROP_TYPE"
+                  register={register}
+                  value={formValues.propType}
+                  onChange={(value) => setValue('propType', value)}
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
