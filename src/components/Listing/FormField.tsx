@@ -49,7 +49,7 @@ export function FormField<T extends FieldValues>({
           {...register(name)}
           placeholder={placeholder}
           rows={rows}
-          className={`${baseInputClass} resize-none`}
+          className={baseInputClass}
         />
       ) : (
         <input
