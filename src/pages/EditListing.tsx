@@ -78,14 +78,30 @@ const EditListing = () => {
       // Engines array - convert from new format to backend format
       // IMPORTANT: Always send engines array to properly update engine count
       if (data.engines && Array.isArray(data.engines)) {
-        updateData.engines = data.engines.map((engine: any) => ({
-          hours: parseInt(engine.hours || 0),
-          horsepower: parseInt(engine.totalPower || 0),
-          make: engine.make || '',
-          model: engine.model || '',
-          fuelType: engine.fuelType || '',
-          propellerType: engine.propellerType || '',
-        }));
+        const currentListing = listingData?.data || listingData;
+        const existingEngines: any[] = Array.isArray(currentListing?.engines)
+          ? currentListing.engines
+          : [];
+
+        updateData.engines = data.engines.map((engine: any, index: number) => {
+          const existingId = existingEngines?.[index]?.id;
+          const payloadEngine: any = {
+            hours: parseInt(engine.hours || 0),
+            horsepower: parseInt(engine.totalPower || 0),
+            make: engine.make || '',
+            model: engine.model || '',
+            fuelType: engine.fuelType || '',
+            propellerType: engine.propellerType || '',
+          };
+
+          // Backend validates `engines[n].id` as UUID on update.
+          // Only include id if we actually have one from the current listing.
+          if (typeof existingId === 'string' && existingId.trim() !== '') {
+            payloadEngine.id = existingId;
+          }
+
+          return payloadEngine;
+        });
         // Update enginesNumber to match actual engines array length
         updateData.enginesNumber = data.engines.length;
       }
@@ -216,31 +232,6 @@ const EditListing = () => {
     return [{ title: '', description: '' }];
   };
 
-  // Convert backend engines to form format
-  const parseEngines = () => {
-    if (!listing.engines || !Array.isArray(listing.engines)) {
-      return [
-        {
-          hours: 0,
-          make: '',
-          model: '',
-          totalPower: 0,
-          fuelType: '',
-          propellerType: '',
-        },
-      ];
-    }
-
-    return listing.engines.map((engine: any) => ({
-      hours: engine.hours || 0,
-      make: engine.make || '',
-      model: engine.model || '',
-      totalPower: engine.horsepower || 0,
-      fuelType: engine.fuelType || '',
-      propellerType: engine.propellerType || '',
-    }));
-  };
-
   const initialData = {
     name: listing.name || '',
     price: listing.price || 0,
@@ -268,8 +259,20 @@ const EditListing = () => {
     numberOfCabins: listing.cabinsNumber || listing.numberOfCabins || 0,
     numberOfHeads: listing.headsNumber || listing.numberOfHeads || 0,
 
-    // Engines array - new format
-    engines: parseEngines(),
+    // Engine data - map from engines array
+    ...(listing.engines && listing.engines.length > 0
+      ? listing.engines.reduce((acc: any, engine: any, index: number) => {
+          const engineNum = index + 1;
+          acc[`engine${engineNum}Make`] = engine.make || '';
+          acc[`engine${engineNum}Model`] = engine.model || '';
+          acc[`engine${engineNum}Hours`] = engine.hours || 0;
+          // The form expects `engine{n}TotalPower`, not `engine{n}Horsepower`.
+          acc[`engine${engineNum}TotalPower`] = engine.horsepower || 0;
+          acc[`engine${engineNum}FuelType`] = engine.fuelType || '';
+          acc[`engine${engineNum}PropellerType`] = engine.propellerType || '';
+          return acc;
+        }, {})
+      : {}),
 
     electronics: listing.electronics || [],
     insideEquipment: listing.insideEquipment || [],

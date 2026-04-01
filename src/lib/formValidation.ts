@@ -43,6 +43,9 @@ export const firstStepSchema = z.object({
   material: z.string().optional(),
   fuelType: z.string().min(1, 'Fuel type is required'),
   propMaterial: z.string().min(1, 'Propeller material is required'),
+  // Optional overall engine / propeller types
+  engineType: z.string().optional(),
+  propType: z.string().optional(),
   
   numberOfEngines: z.coerce
     .number()
@@ -56,19 +59,88 @@ export const firstStepSchema = z.object({
   numberOfHeads: z.coerce
     .number()
     .min(0, 'Number of heads must be positive')
-    .max(50, 'Maximum 50 heads')
-    .optional(),
-  
-  // Engines array for multiple engines
-  engines: z.array(engineSchema).min(1, 'At least one engine is required'),
-  
+    .max(50, 'Maximum 50 heads'),
+  engine1Hours: z.coerce.number().min(0, 'Hours must be positive'),
+  engine1Make: z.string().min(1, 'Engine make is required'),
+  engine1Model: z.string().min(1, 'Engine model is required'),
+  engine1TotalPower: z.coerce.number().min(0, 'Total power must be positive'),
+  engine1FuelType: z.string().min(1, 'Engine fuel type is required'),
+  engine1PropellerType: z.string().min(1, 'Propeller type is required'),
+
+  // Engine fields for engine2..engine10.
+  // These exist in the schema so `zodResolver` keeps them in the form data,
+  // but they are fully optional so they never block submit.
+  engine2Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine2Make: z.string().optional(),
+  engine2Model: z.string().optional(),
+  engine2TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine2FuelType: z.string().optional(),
+  engine2PropellerType: z.string().optional(),
+
+  engine3Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine3Make: z.string().optional(),
+  engine3Model: z.string().optional(),
+  engine3TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine3FuelType: z.string().optional(),
+  engine3PropellerType: z.string().optional(),
+
+  engine4Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine4Make: z.string().optional(),
+  engine4Model: z.string().optional(),
+  engine4TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine4FuelType: z.string().optional(),
+  engine4PropellerType: z.string().optional(),
+
+  engine5Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine5Make: z.string().optional(),
+  engine5Model: z.string().optional(),
+  engine5TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine5FuelType: z.string().optional(),
+  engine5PropellerType: z.string().optional(),
+
+  engine6Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine6Make: z.string().optional(),
+  engine6Model: z.string().optional(),
+  engine6TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine6FuelType: z.string().optional(),
+  engine6PropellerType: z.string().optional(),
+
+  engine7Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine7Make: z.string().optional(),
+  engine7Model: z.string().optional(),
+  engine7TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine7FuelType: z.string().optional(),
+  engine7PropellerType: z.string().optional(),
+
+  engine8Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine8Make: z.string().optional(),
+  engine8Model: z.string().optional(),
+  engine8TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine8FuelType: z.string().optional(),
+  engine8PropellerType: z.string().optional(),
+
+  engine9Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine9Make: z.string().optional(),
+  engine9Model: z.string().optional(),
+  engine9TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine9FuelType: z.string().optional(),
+  engine9PropellerType: z.string().optional(),
+
+  engine10Hours: z.coerce.number().min(0, 'Hours must be positive').optional(),
+  engine10Make: z.string().optional(),
+  engine10Model: z.string().optional(),
+  engine10TotalPower: z.coerce.number().min(0, 'Total power must be positive').optional(),
+  engine10FuelType: z.string().optional(),
+  engine10PropellerType: z.string().optional(),
+
   condition: z.string().min(1, 'Condition is required'),
   price: z.coerce.number().min(0, 'Price must be positive'),
   city: z.string().min(1, 'City is required'),
   state: z.string().min(1, 'State is required'),
   zip: z.string().min(1, 'Zip is required'),
-  description: z.string().min(10, 'Description must be at least 10 characters'),
-  embedUrl: z.string().url().optional().or(z.literal('')),
+  description: z.string().min(1, 'Description is required'),
+  // Allow any string or empty for existing data that may not be a strict URL
+  embedUrl: z.string().optional(),
 });
 
 // Step 2 - Seller Information Schema

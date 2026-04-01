@@ -2,14 +2,11 @@
 import { firstStepSchema } from '@/lib/formValidation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import {
-  ENGINE_COUNT_OPTIONS,
-  YEAR_OPTIONS,
-} from '../../lib/formConfig';
+import { ENGINE_COUNT_OPTIONS, YEAR_OPTIONS } from '../../lib/formConfig';
 import { combineMeasurements } from '../../lib/formUtils';
 import { CityField } from './CityField';
 import { DynamicFormSelect } from './DynamicFormSelect';
@@ -34,6 +31,14 @@ interface FirstListingPageProps {
       coverPhoto: string | null;
       galleryPhotos: string[];
       moreDetails: MoreDetail[];
+      engines: Array<{
+        hours?: number;
+        make: string;
+        model?: string;
+        totalPower?: number;
+        fuelType?: string;
+        propellerType?: string;
+      }>;
     },
   ) => void;
   initialData?: Partial<FirstStepFormData> & {
@@ -55,19 +60,7 @@ const FirstListingPage = ({
   const { register, handleSubmit, watch, setValue } =
     useForm<FirstStepFormData>({
       resolver: zodResolver(firstStepSchema) as any,
-      defaultValues: {
-        ...initialData,
-        engines: initialData?.engines || [
-          {
-            hours: 0,
-            make: '',
-            model: '',
-            totalPower: 0,
-            fuelType: '',
-            propellerType: '',
-          },
-        ],
-      },
+      defaultValues: initialData || {},
     });
 
   const [coverPhoto, setCoverPhoto] = useState<string | null>(
@@ -85,42 +78,6 @@ const FirstListingPage = ({
 
   // Watch form values for real-time preview updates
   const formValues = watch();
-  const numberOfEngines = watch('numberOfEngines');
-
-  // Initialize engines array when numberOfEngines changes
-  useEffect(() => {
-    const engineCount = Number(numberOfEngines) || 1;
-    const currentEngines = formValues.engines || [];
-
-    if (currentEngines.length !== engineCount) {
-      const newEngines = Array.from({ length: engineCount }, (_, index) => {
-        return (
-          currentEngines[index] || {
-            hours: 0,
-            make: '',
-            model: '',
-            totalPower: 0,
-            fuelType: '',
-            propellerType: '',
-          }
-        );
-      });
-      setValue('engines', newEngines);
-    }
-  }, [numberOfEngines, formValues.engines, setValue]);
-
-  // Delete engine handler
-  const handleDeleteEngine = (indexToDelete: number) => {
-    const currentEngines = formValues.engines || [];
-    const newEngines = currentEngines.filter((_: any, index: number) => index !== indexToDelete);
-    
-    // Update engines array
-    setValue('engines', newEngines);
-    
-    // Update numberOfEngines
-    const newCount = newEngines.length;
-    setValue('numberOfEngines', newCount);
-  };
 
   const handleCoverPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -170,7 +127,40 @@ const FirstListingPage = ({
 
   const onSubmit = (data: FirstStepFormData) => {
     const formattedData = combineMeasurements(data);
-    onNext({ ...formattedData, coverPhoto, galleryPhotos, moreDetails });
+
+    const engineCount = Number(formattedData.numberOfEngines) || 1;
+    const engines = Array.from({ length: engineCount }, (_, index) => {
+      const n = index + 1;
+      const hours = (formattedData as any)[`engine${n}Hours`];
+      const make = (formattedData as any)[`engine${n}Make`];
+      const model = (formattedData as any)[`engine${n}Model`];
+      const totalPower = (formattedData as any)[`engine${n}TotalPower`];
+      const fuelType = (formattedData as any)[`engine${n}FuelType`];
+      const propellerType = (formattedData as any)[`engine${n}PropellerType`];
+
+      return {
+        hours,
+        make,
+        model,
+        totalPower,
+        fuelType,
+        propellerType,
+      };
+    }).filter((e) => {
+      // Keep engine 1 always (schema requires make), keep others only if any value was provided
+      if (e.make) return true;
+      return Boolean(
+        e.hours || e.model || e.totalPower || e.fuelType || e.propellerType,
+      );
+    });
+
+    onNext({
+      ...formattedData,
+      engines,
+      coverPhoto,
+      galleryPhotos,
+      moreDetails,
+    });
   };
 
   return (
@@ -272,6 +262,22 @@ const FirstListingPage = ({
                   onChange={(value) => setValue('propMaterial', value)}
                   required
                 />
+                <DynamicFormSelect
+                  label="Engine Type:"
+                  name="engineType"
+                  type="ENGINE_TYPE"
+                  register={register}
+                  value={formValues.engineType}
+                  onChange={(value) => setValue('engineType', value)}
+                />
+                <DynamicFormSelect
+                  label="Propeller Type:"
+                  name="propType"
+                  type="PROP_TYPE"
+                  register={register}
+                  value={formValues.propType}
+                  onChange={(value) => setValue('propType', value)}
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -310,8 +316,6 @@ const FirstListingPage = ({
                   setValue={setValue}
                   watch={watch}
                   engineNumber={index + 1}
-                  onDelete={() => handleDeleteEngine(index)}
-                  canDelete={(formValues.engines?.length || 1) > 1}
                 />
               ),
             )}
@@ -403,7 +407,7 @@ const FirstListingPage = ({
                       updateMoreDetail(index, 'description', e.target.value)
                     }
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 focus:ring-2 focus:ring-cyan-500 focus:border-transparent focus:bg-white resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 focus:ring-2 focus:ring-cyan-500 focus:border-transparent focus:bg-white"
                   ></textarea>
                 </div>
               ))}

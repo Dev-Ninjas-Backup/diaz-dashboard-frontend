@@ -4,7 +4,6 @@ import type {
   UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form';
-import { Trash2 } from 'lucide-react';
 import { DynamicFormSelect } from './DynamicFormSelect';
 import { FormField } from './FormField';
 
@@ -13,8 +12,6 @@ interface EngineSectionProps {
   setValue: UseFormSetValue<any>;
   watch: UseFormWatch<any>;
   engineNumber?: number;
-  onDelete?: () => void;
-  canDelete?: boolean;
 }
 
 export function EngineSection({
@@ -22,41 +19,32 @@ export function EngineSection({
   setValue,
   watch,
   engineNumber = 1,
-  onDelete,
-  canDelete = false,
 }: EngineSectionProps) {
   const formValues = watch();
-  const engineIndex = engineNumber - 1;
 
-  // Access engine data from engines array
-  const engineData = formValues.engines?.[engineIndex] || {};
+  const fieldNames = {
+    hours: `engine${engineNumber}Hours`,
+    make: `engine${engineNumber}Make`,
+    model: `engine${engineNumber}Model`,
+    totalPower: `engine${engineNumber}TotalPower`,
+    fuelType: `engine${engineNumber}FuelType`,
+    propellerType: `engine${engineNumber}PropellerType`,
+  } as const;
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Engine {engineNumber}</h2>
-        {canDelete && onDelete && (
-          <button
-            type="button"
-            onClick={onDelete}
-            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-            title="Delete Engine"
-          >
-            <Trash2 className="w-5 h-5" />
-          </button>
-        )}
-      </div>
+      <h2 className="text-lg font-semibold mb-4">Engine {engineNumber}</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <FormField
           label="Hours:"
-          name={`engines.${engineIndex}.hours`}
+          name={fieldNames.hours}
           register={register}
           type="number"
         />
         <FormField
           label="Make:"
-          name={`engines.${engineIndex}.make`}
+          name={fieldNames.make}
           register={register}
           required
         />
@@ -65,12 +53,12 @@ export function EngineSection({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <FormField
           label="Model:"
-          name={`engines.${engineIndex}.model`}
+          name={fieldNames.model}
           register={register}
         />
         <FormField
           label="Total Power (HP):"
-          name={`engines.${engineIndex}.totalPower`}
+          name={fieldNames.totalPower}
           register={register}
           type="number"
         />
@@ -79,19 +67,19 @@ export function EngineSection({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <DynamicFormSelect
           label="Engine Fuel Type:"
-          name={`engines.${engineIndex}.fuelType`}
-          type="ENGINE_TYPE"
+          name={fieldNames.fuelType}
+          type="FUEL_TYPE"
           register={register}
-          value={engineData.fuelType}
-          onChange={(value) => setValue(`engines.${engineIndex}.fuelType`, value)}
+          value={formValues[fieldNames.fuelType]}
+          onChange={(value) => setValue(fieldNames.fuelType, value)}
         />
         <DynamicFormSelect
           label="Propeller Type:"
-          name={`engines.${engineIndex}.propellerType`}
-          type="PROP_TYPE"
+          name={fieldNames.propellerType}
+          type="PROP_MATERIAL"
           register={register}
-          value={engineData.propellerType}
-          onChange={(value) => setValue(`engines.${engineIndex}.propellerType`, value)}
+          value={formValues[fieldNames.propellerType]}
+          onChange={(value) => setValue(fieldNames.propellerType, value)}
         />
       </div>
     </div>
