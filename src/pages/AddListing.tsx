@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import FirstListingPage from '@/components/Listing/FirstListingPage';
 import { useCreateListingMutation } from '@/redux/features/listingManagement/listingManagement';
+import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 
@@ -283,6 +284,19 @@ const AddListing = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 rounded-lg">
+      <div className="p-4 mb-6 flex items-center gap-4">
+        <button
+          onClick={() => navigate('/listings')}
+          className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+          aria-label="Go back"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-900">Add Listing</h1>
+          <p className="text-sm text-gray-500 mt-1">Create a new boat listing</p>
+        </div>
+      </div>
       <FirstListingPage onNext={handleSubmit} isSubmitting={isSubmitting} />
     </div>
   );

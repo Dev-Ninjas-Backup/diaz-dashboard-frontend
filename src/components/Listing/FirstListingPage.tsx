@@ -6,10 +6,7 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import {
-  ENGINE_COUNT_OPTIONS,
-  YEAR_OPTIONS,
-} from '../../lib/formConfig';
+import { ENGINE_COUNT_OPTIONS, YEAR_OPTIONS } from '../../lib/formConfig';
 import { combineMeasurements } from '../../lib/formUtils';
 import { CityField } from './CityField';
 import { DynamicFormSelect } from './DynamicFormSelect';
@@ -157,7 +154,13 @@ const FirstListingPage = ({
       );
     });
 
-    onNext({ ...formattedData, engines, coverPhoto, galleryPhotos, moreDetails });
+    onNext({
+      ...formattedData,
+      engines,
+      coverPhoto,
+      galleryPhotos,
+      moreDetails,
+    });
   };
 
   return (
@@ -404,7 +407,7 @@ const FirstListingPage = ({
                       updateMoreDetail(index, 'description', e.target.value)
                     }
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 focus:ring-2 focus:ring-cyan-500 focus:border-transparent focus:bg-white resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 focus:ring-2 focus:ring-cyan-500 focus:border-transparent focus:bg-white"
                   ></textarea>
                 </div>
               ))}

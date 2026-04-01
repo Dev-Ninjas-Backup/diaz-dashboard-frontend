@@ -68,7 +68,7 @@ export function EngineSection({
         <DynamicFormSelect
           label="Engine Fuel Type:"
           name={fieldNames.fuelType}
-          type="ENGINE_TYPE"
+          type="FUEL_TYPE"
           register={register}
           value={formValues[fieldNames.fuelType]}
           onChange={(value) => setValue(fieldNames.fuelType, value)}
@@ -76,7 +76,7 @@ export function EngineSection({
         <DynamicFormSelect
           label="Propeller Type:"
           name={fieldNames.propellerType}
-          type="PROP_TYPE"
+          type="PROP_MATERIAL"
           register={register}
           value={formValues[fieldNames.propellerType]}
           onChange={(value) => setValue(fieldNames.propellerType, value)}
