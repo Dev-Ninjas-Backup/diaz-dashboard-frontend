@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 import {
   ContactInfoForm,
   ContactInfoPreview,
-  ContactInfoSidebar,
   ContactUsHeader,
   SocialMediaSection,
   WorkingHoursSection,
@@ -18,13 +17,7 @@ import {
 
 const ContactUs: React.FC = () => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
-  const [selectedSite, setSelectedSite] = useState<'FLORIDA' | 'JUPITER'>(
-    'FLORIDA',
-  );
-
-  const handleSiteChange = (site: 'FLORIDA' | 'JUPITER') => {
-    setSelectedSite(site);
-  };
+  const selectedSite = 'FLORIDA' as const;
   const [formData, setFormData] = useState<ContactInfoFormData>({
     address: '',
     email: '',
@@ -305,11 +298,7 @@ const ContactUs: React.FC = () => {
               />
             </div>
 
-            {/* Sidebar */}
-            <ContactInfoSidebar
-              selectedSite={selectedSite}
-              onSiteChange={handleSiteChange}
-            />
+            {/* Sidebar removed - Florida only */}
           </div>
         )}
       </div>

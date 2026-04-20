@@ -3,7 +3,7 @@ import HomeBannersSection from '@/components/FeaturedAndHomeComponents/HomeBanne
 import { useFeaturedBoatsQuery } from '@/redux/features/adminBannerApi/adminBannerApi';
 import React, { useState } from 'react';
 
-type Tab = 'featured' | 'FLORIDA' | 'JUPITER';
+type Tab = 'featured' | 'FLORIDA';
 
 const FeaturedAndHomeManagement: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>('featured');
@@ -43,18 +43,9 @@ const FeaturedAndHomeManagement: React.FC = () => {
                 : 'bg-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            Florida Hero Banner
+            Page Banners
           </button>
-          <button
-            onClick={() => setActiveTab('JUPITER')}
-            className={`px-4 py-2 text-sm font-medium rounded-full transition-colors whitespace-nowrap ${
-              activeTab === 'JUPITER'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'bg-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Jupiter Hero Banner
-          </button>
+
         </div>
       </div>
 
@@ -64,10 +55,8 @@ const FeaturedAndHomeManagement: React.FC = () => {
           featuredBoatsData={featuredBoatsData}
           isLoading={isFeaturedBoatsLoading}
         />
-      ) : activeTab === 'FLORIDA' ? (
-        <HomeBannersSection website={activeTab} />
       ) : (
-        <HomeBannersSection website={activeTab} />
+        <HomeBannersSection website='FLORIDA' />
       )}
     </div>
   );

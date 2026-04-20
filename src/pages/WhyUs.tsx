@@ -16,9 +16,7 @@ import {
 
 const WhyUs: React.FC = () => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
-  const [selectedSite, setSelectedSite] = useState<'FLORIDA' | 'JUPITER'>(
-    'FLORIDA',
-  );
+  const selectedSite = 'FLORIDA' as const;
   const [formData, setFormData] = useState<WhyUsFormData>({
     title: '',
     description: '',
@@ -86,11 +84,7 @@ const WhyUs: React.FC = () => {
     >,
   ) => {
     const { name, value } = e.target;
-    if (name === 'site') {
-      setSelectedSite(value as 'FLORIDA' | 'JUPITER');
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (
@@ -289,8 +283,6 @@ const WhyUs: React.FC = () => {
             </div>
 
             <WhyUsSidebar
-              selectedSite={selectedSite}
-              onSiteChange={setSelectedSite}
               hasData={!!whyUsData?.data}
               onDelete={handleDelete}
             />
