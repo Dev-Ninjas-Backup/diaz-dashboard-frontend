@@ -93,6 +93,10 @@ export const AddAdminModal: React.FC<AddAdminModalProps> = ({
 
     if (!formData.username.trim()) {
       newErrors.username = 'Username is required';
+    } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+      newErrors.username = 'Username can only contain letters, numbers, and underscores';
+    } else if (formData.username.length > 20) {
+      newErrors.username = 'Username must be 20 characters or less';
     }
 
     if (!formData.password.trim()) {
@@ -219,8 +223,10 @@ export const AddAdminModal: React.FC<AddAdminModalProps> = ({
               onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="johndoe"
+              maxLength={20}
               disabled={isLoading}
             />
+            <p className="text-gray-400 text-xs mt-1">Letters, numbers, underscores only. Max 20 characters.</p>
             {errors.username && (
               <p className="text-red-500 text-xs mt-1">{errors.username}</p>
             )}

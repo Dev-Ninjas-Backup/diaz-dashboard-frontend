@@ -41,31 +41,21 @@ export const firstStepSchema = z.object({
   
   class: z.string().min(1, 'Class is required'),
   material: z.string().optional(),
-  fuelType: z.string().min(1, 'Fuel type is required'),
-  propMaterial: z.string().min(1, 'Propeller material is required'),
+  fuelType: z.string().optional(),
+  propMaterial: z.string().optional(),
   // Optional overall engine / propeller types
   engineType: z.string().optional(),
   propType: z.string().optional(),
   
-  numberOfEngines: z.coerce
-    .number()
-    .min(1, 'Number of engines is required')
-    .max(10, 'Maximum 10 engines'),
-  numberOfCabins: z.coerce
-    .number()
-    .min(0, 'Number of cabins must be positive')
-    .max(50, 'Maximum 50 cabins')
-    .optional(),
-  numberOfHeads: z.coerce
-    .number()
-    .min(0, 'Number of heads must be positive')
-    .max(50, 'Maximum 50 heads'),
-  engine1Hours: z.coerce.number().min(0, 'Hours must be positive'),
+  numberOfEngines: z.coerce.number().min(1).max(10).optional(),
+  numberOfCabins: z.coerce.number().min(0).max(50).optional(),
+  numberOfHeads: z.coerce.number().min(0).max(50).optional(),
+  engine1Hours: z.coerce.number().min(0).optional(),
   engine1Make: z.string().min(1, 'Engine make is required'),
-  engine1Model: z.string().min(1, 'Engine model is required'),
-  engine1TotalPower: z.coerce.number().min(0, 'Total power must be positive'),
-  engine1FuelType: z.string().min(1, 'Engine fuel type is required'),
-  engine1PropellerType: z.string().min(1, 'Propeller type is required'),
+  engine1Model: z.string().optional(),
+  engine1TotalPower: z.coerce.number().min(0).optional(),
+  engine1FuelType: z.string().optional(),
+  engine1PropellerType: z.string().optional(),
 
   // Engine fields for engine2..engine10.
   // These exist in the schema so `zodResolver` keeps them in the form data,

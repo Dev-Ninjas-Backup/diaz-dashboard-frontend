@@ -5,7 +5,6 @@ import CreateNewArticle from '@/pages/CreateNewArticle';
 import FAQ from '@/pages/FAQ';
 import FeaturedBrands from '@/pages/FeaturedBrands';
 import Footer from '@/pages/Footer';
-import OurTeam from '@/pages/OurTeam';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
 import UpdateBlogPost from '@/pages/UpdateBlogPost';
@@ -60,7 +59,6 @@ const router = createBrowserRouter([
           { path: 'content/footer', element: <Footer /> },
           { path: 'content/faq', element: <FAQ /> },
           { path: 'content/why-us', element: <WhyUs /> },
-          { path: 'content/our-team', element: <OurTeam /> },
           { path: 'content/featured-brands', element: <FeaturedBrands /> },
           { path: 'content/category', element: <CategoryManagement /> },
           { path: 'users', element: <UsersAndPermission /> },

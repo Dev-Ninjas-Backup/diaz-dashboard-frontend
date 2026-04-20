@@ -208,6 +208,7 @@ const FirstListingPage = ({
                   ftName="lengthFt"
                   inName="lengthIn"
                   register={register}
+                  required
                 />
                 <MeasurementField
                   label="Beam Size(Ft/In):"
@@ -248,7 +249,6 @@ const FirstListingPage = ({
                   register={register}
                   value={formValues.fuelType}
                   onChange={(value) => setValue('fuelType', value)}
-                  required
                 />
               </div>
 
@@ -260,7 +260,6 @@ const FirstListingPage = ({
                   register={register}
                   value={formValues.propMaterial}
                   onChange={(value) => setValue('propMaterial', value)}
-                  required
                 />
                 <DynamicFormSelect
                   label="Engine Type:"
@@ -287,7 +286,6 @@ const FirstListingPage = ({
                   register={register}
                   type="select"
                   options={ENGINE_COUNT_OPTIONS}
-                  required
                 />
                 <FormField
                   label="Number of Cabin:"
@@ -325,13 +323,15 @@ const FirstListingPage = ({
               <h2 className="text-lg font-semibold mb-4">Basic Information</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <DynamicFormSelect
+                <FormField
                   label="Condition:"
                   name="condition"
-                  type="CONDITION"
                   register={register}
-                  value={formValues.condition}
-                  onChange={(value) => setValue('condition', value)}
+                  type="select"
+                  options={[
+                    { value: 'NEW', label: 'New' },
+                    { value: 'USED', label: 'Used' },
+                  ]}
                   required
                 />
                 <FormField
