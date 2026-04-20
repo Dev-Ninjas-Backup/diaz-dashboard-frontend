@@ -170,8 +170,6 @@ export interface WhatSetsUsApartSectionProps {
 }
 
 export interface AboutUsSidebarProps {
-  selectedSite: 'FLORIDA' | 'JUPITER';
-  onSiteChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   updatedAt?: string;
 }
 

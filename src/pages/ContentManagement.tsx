@@ -49,9 +49,8 @@ const DEMO_STATIC_PAGES: StaticPage[] = [
   { id: 5, title: 'Footer' },
   { id: 6, title: 'FAQ' },
   { id: 7, title: 'Why Us' },
-  { id: 8, title: 'Our Team' },
-  { id: 9, title: 'Featured Brands' },
-  { id: 10, title: 'Category' },
+  { id: 8, title: 'Featured Brands' },
+  { id: 9, title: 'Category' },
 ];
 
 const ContentManagement: React.FC = () => {
@@ -113,9 +112,8 @@ const ContentManagement: React.FC = () => {
       5: '/content/footer',
       6: '/content/faq',
       7: '/content/why-us',
-      8: '/content/our-team',
-      9: '/content/featured-brands',
-      10: '/content/category',
+      8: '/content/featured-brands',
+      9: '/content/category',
     };
 
     const route = pageRoutes[id];

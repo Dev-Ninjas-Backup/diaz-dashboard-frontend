@@ -4,7 +4,7 @@ import type {
   UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form';
-import { DynamicFormSelect } from './DynamicFormSelect';
+// import { DynamicFormSelect } from './DynamicFormSelect';
 import { FormField } from './FormField';
 
 interface EngineSectionProps {
@@ -16,11 +16,11 @@ interface EngineSectionProps {
 
 export function EngineSection({
   register,
-  setValue,
-  watch,
+  // setValue,
+  // watch,
   engineNumber = 1,
 }: EngineSectionProps) {
-  const formValues = watch();
+  // const formValues = watch();
 
   const fieldNames = {
     hours: `engine${engineNumber}Hours`,
@@ -51,11 +51,7 @@ export function EngineSection({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <FormField
-          label="Model:"
-          name={fieldNames.model}
-          register={register}
-        />
+        <FormField label="Model:" name={fieldNames.model} register={register} />
         <FormField
           label="Total Power (HP):"
           name={fieldNames.totalPower}
@@ -64,7 +60,7 @@ export function EngineSection({
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <DynamicFormSelect
           label="Engine Fuel Type:"
           name={fieldNames.fuelType}
@@ -81,7 +77,7 @@ export function EngineSection({
           value={formValues[fieldNames.propellerType]}
           onChange={(value) => setValue(fieldNames.propellerType, value)}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
