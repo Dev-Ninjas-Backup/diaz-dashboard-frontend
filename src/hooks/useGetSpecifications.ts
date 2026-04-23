@@ -3,8 +3,8 @@
  * Handles API calls with search, pagination, and caching
  */
 
-import { useEffect, useState } from 'react';
 import { useLazyGetSpecificationsQuery } from '@/redux/features/boatSpecifications/boatSpecificationsApi';
+import { useEffect, useState } from 'react';
 
 export interface SpecificationParams {
   type: string;
