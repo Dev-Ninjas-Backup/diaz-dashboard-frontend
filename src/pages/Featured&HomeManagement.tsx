@@ -45,7 +45,6 @@ const FeaturedAndHomeManagement: React.FC = () => {
           >
             Page Banners
           </button>
-
         </div>
       </div>
 
@@ -56,7 +55,7 @@ const FeaturedAndHomeManagement: React.FC = () => {
           isLoading={isFeaturedBoatsLoading}
         />
       ) : (
-        <HomeBannersSection website='FLORIDA' />
+        <HomeBannersSection website="FLORIDA" />
       )}
     </div>
   );

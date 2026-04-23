@@ -25,7 +25,9 @@ const ListingManagement: React.FC = () => {
     priceRange: '',
   });
   const [deleteListing] = useDeleteListingMutation();
-  const [selectedListingId, setSelectedListingId] = useState<string | null>(null);
+  const [selectedListingId, setSelectedListingId] = useState<string | null>(
+    null,
+  );
 
   const pagination = usePagination({ initialPage: 1, initialLimit: 10 });
   const queryParams = useMemo(() => {

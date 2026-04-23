@@ -43,10 +43,13 @@ const ContactUs: React.FC = () => {
     site: 'FLORIDA',
   });
 
-  const { data: contactInfoData, isLoading, isFetching } =
-    useGetContactInfoQuery(selectedSite, {
-      refetchOnMountOrArgChange: true,
-    });
+  const {
+    data: contactInfoData,
+    isLoading,
+    isFetching,
+  } = useGetContactInfoQuery(selectedSite, {
+    refetchOnMountOrArgChange: true,
+  });
   const [createContactInfo, { isLoading: isCreating }] =
     useCreateContactInfoMutation();
   const [updateContactInfo, { isLoading: isUpdating }] =
