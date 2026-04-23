@@ -118,7 +118,11 @@ const SellerManagement: React.FC = () => {
         <select
           aria-label="Filter sellers by verification status"
           value={
-            isVerified === undefined ? 'all' : isVerified ? 'verified' : 'unverified'
+            isVerified === undefined
+              ? 'all'
+              : isVerified
+                ? 'verified'
+                : 'unverified'
           }
           onChange={(e) =>
             handleFilterChange(
