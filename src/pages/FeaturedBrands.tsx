@@ -25,10 +25,12 @@ const FeaturedBrands: React.FC = () => {
   const selectedSite = 'FLORIDA' as const;
   const [deletingBrandId, setDeletingBrandId] = useState<string | undefined>();
 
-  const { data: getFeaturedBrandsData, isLoading } =
-    useGetFeaturedBrandsQuery(selectedSite, {
+  const { data: getFeaturedBrandsData, isLoading } = useGetFeaturedBrandsQuery(
+    selectedSite,
+    {
       refetchOnMountOrArgChange: true,
-    });
+    },
+  );
   const [createFeaturedBrands, { isLoading: isCreating }] =
     useCreateFeaturedBrandsMutation();
   const [updateFeaturedBrands] = useUpdateFeaturedBrandsMutation();

@@ -2,8 +2,8 @@
 import FirstListingPage from '@/components/Listing/FirstListingPage';
 import { useCreateListingMutation } from '@/redux/features/listingManagement/listingManagement';
 import { ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 interface Engine {
   hours?: number;
@@ -271,13 +271,13 @@ const AddListing = () => {
       navigate('/listings');
     } catch (error: any) {
       console.error('❌ Submission failed:', error);
-      
-      const errorMessage = 
-        error?.data?.message || 
-        error?.data?.error || 
-        error?.message || 
+
+      const errorMessage =
+        error?.data?.message ||
+        error?.data?.error ||
+        error?.message ||
         'Failed to create listing';
-      
+
       toast.error(errorMessage);
     }
   };
@@ -294,7 +294,9 @@ const AddListing = () => {
         </button>
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">Add Listing</h1>
-          <p className="text-sm text-gray-500 mt-1">Create a new boat listing</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Create a new boat listing
+          </p>
         </div>
       </div>
       <FirstListingPage onNext={handleSubmit} isSubmitting={isSubmitting} />

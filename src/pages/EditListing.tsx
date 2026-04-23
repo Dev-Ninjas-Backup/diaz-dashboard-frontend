@@ -5,8 +5,8 @@ import {
   useUpdateListingMutation,
 } from '@/redux/features/listingManagement/listingManagement';
 import { ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const EditListing = () => {
   const { id } = useParams<{ id: string }>();
@@ -146,13 +146,13 @@ const EditListing = () => {
       navigate('/listings');
     } catch (error: any) {
       console.error('❌ Update failed:', error);
-      
-      const errorMessage = 
-        error?.data?.message || 
-        error?.data?.error || 
-        error?.message || 
+
+      const errorMessage =
+        error?.data?.message ||
+        error?.data?.error ||
+        error?.message ||
         'Failed to update listing';
-      
+
       toast.error(errorMessage);
     }
   };
