@@ -17,8 +17,16 @@ interface StatusDropdownProps {
   onStatusChange?: () => void;
 }
 
-const STATUS_OPTIONS: { value: BoatListingStatus; label: string; color: string }[] = [
-  { value: 'ONBOARDING_PENDING', label: 'Onboarding Pending', color: 'bg-yellow-100 text-yellow-800' },
+const STATUS_OPTIONS: {
+  value: BoatListingStatus;
+  label: string;
+  color: string;
+}[] = [
+  {
+    value: 'ONBOARDING_PENDING',
+    label: 'Onboarding Pending',
+    color: 'bg-yellow-100 text-yellow-800',
+  },
   { value: 'DRAFT', label: 'Draft', color: 'bg-gray-100 text-gray-800' },
   { value: 'PENDING', label: 'Pending', color: 'bg-blue-100 text-blue-800' },
   { value: 'ACTIVE', label: 'Active', color: 'bg-green-100 text-green-800' },
@@ -26,11 +34,17 @@ const STATUS_OPTIONS: { value: BoatListingStatus; label: string; color: string }
   { value: 'SOLD', label: 'Sold', color: 'bg-purple-100 text-purple-800' },
 ];
 
-export const StatusDropdown: React.FC<StatusDropdownProps> = ({ listingId, currentStatus, onStatusChange }) => {
+export const StatusDropdown: React.FC<StatusDropdownProps> = ({
+  listingId,
+  currentStatus,
+  onStatusChange,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [updateStatus, { isLoading }] = useUpdateListingStatusMutation();
 
-  const currentOption = STATUS_OPTIONS.find((opt) => opt.value === currentStatus);
+  const currentOption = STATUS_OPTIONS.find(
+    (opt) => opt.value === currentStatus,
+  );
 
   const handleStatusChange = async (newStatus: BoatListingStatus) => {
     if (newStatus === currentStatus) {
@@ -42,7 +56,7 @@ export const StatusDropdown: React.FC<StatusDropdownProps> = ({ listingId, curre
 
     try {
       await updateStatus({ id: listingId, status: newStatus }).unwrap();
-      
+
       Swal.fire({
         icon: 'success',
         title: 'Status Updated',
@@ -56,10 +70,16 @@ export const StatusDropdown: React.FC<StatusDropdownProps> = ({ listingId, curre
         onStatusChange();
       }
     } catch (error: unknown) {
-      const errorMessage = error && typeof error === 'object' && 'data' in error && error.data && typeof error.data === 'object' && 'message' in error.data
-        ? String(error.data.message)
-        : 'Failed to update status';
-      
+      const errorMessage =
+        error &&
+        typeof error === 'object' &&
+        'data' in error &&
+        error.data &&
+        typeof error.data === 'object' &&
+        'message' in error.data
+          ? String(error.data.message)
+          : 'Failed to update status';
+
       Swal.fire({
         icon: 'error',
         title: 'Update Failed',
@@ -96,7 +116,9 @@ export const StatusDropdown: React.FC<StatusDropdownProps> = ({ listingId, curre
                   option.value === currentStatus ? 'bg-gray-50 font-medium' : ''
                 }`}
               >
-                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${option.color}`}>
+                <span
+                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${option.color}`}
+                >
                   {option.label}
                 </span>
               </button>

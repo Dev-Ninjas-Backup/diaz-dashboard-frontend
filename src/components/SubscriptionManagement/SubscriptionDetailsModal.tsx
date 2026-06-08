@@ -36,17 +36,37 @@ export const SubscriptionDetailsModal: React.FC<
     const statusConfig = {
       TRIALING: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Trialing' },
       ACTIVE: { bg: 'bg-green-100', text: 'text-green-800', label: 'Active' },
-      PAST_DUE: { bg: 'bg-orange-100', text: 'text-orange-800', label: 'Past Due' },
+      PAST_DUE: {
+        bg: 'bg-orange-100',
+        text: 'text-orange-800',
+        label: 'Past Due',
+      },
       CANCELED: { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Canceled' },
       EXPIRED: { bg: 'bg-red-100', text: 'text-red-800', label: 'Expired' },
-      PENDING: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Pending' },
-      INCOMPLETE: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Incomplete' },
-      INCOMPLETE_EXPIRED: { bg: 'bg-red-100', text: 'text-red-800', label: 'Incomplete Expired' },
+      PENDING: {
+        bg: 'bg-yellow-100',
+        text: 'text-yellow-800',
+        label: 'Pending',
+      },
+      INCOMPLETE: {
+        bg: 'bg-yellow-100',
+        text: 'text-yellow-800',
+        label: 'Incomplete',
+      },
+      INCOMPLETE_EXPIRED: {
+        bg: 'bg-red-100',
+        text: 'text-red-800',
+        label: 'Incomplete Expired',
+      },
       FAILED: { bg: 'bg-red-100', text: 'text-red-800', label: 'Failed' },
       PAID: { bg: 'bg-green-100', text: 'text-green-800', label: 'Paid' },
       UNPAID: { bg: 'bg-red-100', text: 'text-red-800', label: 'Unpaid' },
       VOID: { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Void' },
-      REFUNDED: { bg: 'bg-purple-100', text: 'text-purple-800', label: 'Refunded' },
+      REFUNDED: {
+        bg: 'bg-purple-100',
+        text: 'text-purple-800',
+        label: 'Refunded',
+      },
       UPCOMING: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Upcoming' },
     };
     return (

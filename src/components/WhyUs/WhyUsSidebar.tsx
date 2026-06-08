@@ -6,10 +6,7 @@ interface WhyUsSidebarProps {
   onDelete: () => void;
 }
 
-const WhyUsSidebar: React.FC<WhyUsSidebarProps> = ({
-  hasData,
-  onDelete,
-}) => {
+const WhyUsSidebar: React.FC<WhyUsSidebarProps> = ({ hasData, onDelete }) => {
   return (
     <div className="lg:col-span-1 space-y-6">
       {/* Delete Button */}

@@ -50,7 +50,10 @@ const ourTeamApi = baseApi.injectEndpoints({
       providesTags: (result) =>
         result?.data
           ? [
-              ...result.data.map(({ id }) => ({ type: 'OurTeam' as const, id })),
+              ...result.data.map(({ id }) => ({
+                type: 'OurTeam' as const,
+                id,
+              })),
               { type: 'OurTeam', id: 'LIST' },
             ]
           : [{ type: 'OurTeam', id: 'LIST' }],
