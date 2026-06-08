@@ -245,15 +245,21 @@ const subscriptionApi = baseApi.injectEndpoints({
     // User Subscription Endpoints
     getUserSubscriptions: build.query<
       UserSubscriptionResponse,
-      { page?: number; limit?: number; status?: string; userId?: string; search?: string }
+      {
+        page?: number;
+        limit?: number;
+        status?: string;
+        userId?: string;
+        search?: string;
+      }
     >({
       query: (params = {}) => {
         const { page = 1, limit = 10, status, userId, search } = params;
         return {
           url: `/admin/subscriptions`,
           method: 'GET',
-          params: { 
-            page, 
+          params: {
+            page,
             limit,
             ...(status && { status }),
             ...(userId && { userId }),

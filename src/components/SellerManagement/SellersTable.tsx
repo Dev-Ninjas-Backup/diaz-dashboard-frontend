@@ -6,7 +6,9 @@ interface SellersTableProps {
   onViewProfile: (id: string) => void;
   sortBy?: 'name' | 'boatsCount' | 'totalSalesValue' | 'createdAt';
   sortOrder?: 'asc' | 'desc';
-  onSort: (field: 'name' | 'boatsCount' | 'totalSalesValue' | 'createdAt') => void;
+  onSort: (
+    field: 'name' | 'boatsCount' | 'totalSalesValue' | 'createdAt',
+  ) => void;
 }
 
 export const SellersTable: React.FC<SellersTableProps> = ({

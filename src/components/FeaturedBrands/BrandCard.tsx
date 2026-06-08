@@ -47,7 +47,9 @@ const BrandCard: React.FC<BrandCardProps> = ({
       <div className="text-xs text-gray-600 space-y-1">
         <p className="flex gap-1">
           <span className="font-medium shrink-0">File:</span>
-          <span className="truncate">{brand.featuredbrandLogo?.originalFilename || 'N/A'}</span>
+          <span className="truncate">
+            {brand.featuredbrandLogo?.originalFilename || 'N/A'}
+          </span>
         </p>
         <p>
           <span className="font-medium">Size:</span>{' '}

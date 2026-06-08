@@ -162,7 +162,10 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
       {/* Mobile Card View */}
       <div className="lg:hidden divide-y divide-gray-200">
         {listings.map((listing) => (
-          <div key={listing.id} className="p-4 hover:bg-gray-50 transition-colors">
+          <div
+            key={listing.id}
+            className="p-4 hover:bg-gray-50 transition-colors"
+          >
             {/* Header */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
@@ -184,15 +187,21 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
             <div className="grid grid-cols-2 gap-3 mb-3">
               <div>
                 <p className="text-xs text-gray-500 mb-0.5">Listing ID</p>
-                <p className="text-sm font-medium text-blue-600">{listing.listingId}</p>
+                <p className="text-sm font-medium text-blue-600">
+                  {listing.listingId}
+                </p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-0.5">Price</p>
-                <p className="text-sm font-semibold text-cyan-600">{formatPrice(listing.price)}</p>
+                <p className="text-sm font-semibold text-cyan-600">
+                  {formatPrice(listing.price)}
+                </p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-0.5">Seller</p>
-                <p className="text-sm text-gray-900 truncate">{listing.seller.name}</p>
+                <p className="text-sm text-gray-900 truncate">
+                  {listing.seller.name}
+                </p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-0.5">Views</p>
@@ -202,7 +211,9 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
 
             {/* Footer */}
             <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-              <span className="text-xs text-gray-500">{formatDate(listing.createdAt)}</span>
+              <span className="text-xs text-gray-500">
+                {formatDate(listing.createdAt)}
+              </span>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => onView(listing.id)}
