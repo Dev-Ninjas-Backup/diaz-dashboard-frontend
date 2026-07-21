@@ -106,9 +106,10 @@ const UpdateBlogPost: React.FC = () => {
   const handleUpdate = async () => {
     if (!id) return;
 
+    const cleanContent = formData.content?.replace(/&nbsp;|\u00a0/g, ' ') || '';
     const formDataToSend = new FormData();
     formDataToSend.append('blogTitle', formData.title);
-    formDataToSend.append('blogDescription', formData.content);
+    formDataToSend.append('blogDescription', cleanContent);
     formDataToSend.append('postStatus', formData.status);
 
     if (formData.blogImage) {
