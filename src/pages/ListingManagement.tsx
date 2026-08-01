@@ -13,7 +13,7 @@ import {
 } from '@/redux/features/listingManagement/listingManagement';
 import type { ListingFilters } from '@/types/listing-types';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const ListingManagement: React.FC = () => {
